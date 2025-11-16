@@ -1,24 +1,30 @@
 import { useState } from 'react'
+import PdfUploader from './components/PdfUploader'
+import ChatPanel from './components/ChatPanel'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [doc, setDoc] = useState(null)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-6">
+          <h1 className="text-2xl font-bold text-slate-800">PDF Chat</h1>
+          <p className="text-slate-600">Upload a PDF on the left, chat about it on the right.</p>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[70vh]">
+          <div className="h-full">
+            <PdfUploader onUploaded={(data) => setDoc(data)} />
+            {doc && (
+              <div className="mt-3 text-sm text-slate-600">
+                Uploaded: <span className="font-medium">{doc.filename}</span>
+              </div>
+            )}
+          </div>
+          <div className="h-full">
+            <ChatPanel documentId={doc?.document_id} filename={doc?.filename} />
+          </div>
         </div>
       </div>
     </div>
